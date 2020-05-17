@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='username.js') }}"></script>
+    <script src="{{ url_for('static', filename='channels.js') }}"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='messages.js') }}"></script>
+{% endblock %}
+{% block head %}
+{% endblock %}
+{% block title %}
+<title>Rooms - Join or create a channel.</title>
+{% endblock %}
+
+
+{% block controls %}
+    <div class="jumbotron text-center p-2 bg mt-0 text-primary">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+        <h5 id="welcome_message"></h5>
+    </div>
+    </div>
+    </div>
+
+      <div class="row">
+        <div class="col-sm-3">
+            <form class="form-inline" id="form" action="{{ url_for('channels') }}" method="post">
+                <input class="col-sm-8" id=channel_name class="form-control" type="text" name="new_channel" placeholder="Create a new channel...">
+                <button id=submit_channel>Create</button>
+             </form>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <form class="form-inline" id="send_message">
+                    <input id="message" type="text"  placeholder="Your message..."><br>
+                    <input id="submit_message" type="submit" value="Send">
+                </form>
+            </div>
+        </div>
+          <div class="col-sm-1">
+        </div>
+      </div>
+{% endblock %}
+
+
+{%  block body %}
+  <!-- The Modal -->
+  <div class="modal" id="prompt_username">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">You need to select a name.</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form id="input_name">
+                <input id="username" autocomplete="off" autofocus placeholder="Choose your name..." type="text">
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <input id="submit_name" type="submit" value="select">
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-3">
+                 {% for each_channel in my_channels %}
+                 <div class="alert alert-success">
+                 <a href="" class="channel-links" data-channel="{{ each_channel }}"># {{  each_channel }}</a>
+                 </div>
+             {% endfor %}
+    </div>
+    <div class="col-sm-9">
+        <div>
+            <ul id="messages" class="list-group">
+            </ul>
+        </div>
+        </div>
+    </div>
+{% endblock %}
